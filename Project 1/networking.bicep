@@ -3,7 +3,7 @@ param location string = resourceGroup().location
 param serverNsgSettings string = 'NSG NAME'
 
 param coreVnetSettings object = {
-  name: 'company-vnet-uks-corenetworking'
+  name: 'companya-vnet-uks-corenetworking'
   addressSpace: '10.60.8.0/24'
   subnets: [
     {
@@ -15,41 +15,41 @@ param coreVnetSettings object = {
       subnetPrefix: '10.60.8.32/27'
     }
     {
-      name: 'company-snet-uks-management-servers'
+      name: 'companya-snet-uks-management-servers'
       subnetPrefix: '10.60.8.64/27'
     }
   ]
 }
 
 param serverVnetSettings object = {
-  name: 'company-vnet-uks-prod-servers'
+  name: 'companya-vnet-uks-prod-servers'
   addressSpace: '10.60.10.0/24'
   subnets: [
     {
-      name: 'company-snet-uks-prod-servers-internal'
+      name: 'companya-snet-uks-prod-servers-internal'
       subnetPrefix: '10.60.10.0/25'
     }
     {
-      name: 'company-snet-uks-prod-servers-dmz'
+      name: 'companya-snet-uks-prod-servers-dmz'
       subnetPrefix: '10.60.10.128/25'
     }
   ]
 }
 
 param vpnPipSettings object = {
-  name: 'company-pip-vgw-uks-core-01'
+  name: 'companya-pip-vgw-uks-core-01'
 }
 
-param companyAmsLgwSettings object= {
-  name: 'company-lgw-uks-company-ams-office'
+param companyaAmsLgwSettings object= {
+  name: 'companya-lgw-uks-companya-ams-office'
   publicIp: '1.2.3.4'
   privateIpRanges: [
     '172.16.36.0/22'
   ]
 }
 
-param companyAxsLgwSettings object = {
-  name: 'company-lgw-uks-company-axs-office'
+param companyaAxsLgwSettings object = {
+  name: 'companya-lgw-uks-companya-axs-office'
   publicIp: '1.2.3.4'
   privateIpRanges: [
     '172.16.4.0/22'
@@ -57,30 +57,30 @@ param companyAxsLgwSettings object = {
 }
 
 param sysGroupLgwSettings object = {
-  name: 'company-lgw-uks-syscloud-manchester'
+  name: 'companya-lgw-uks-syscloud-manchester'
   publicIp: '1.2.3.4'
   privateIpRanges: [
     '10.50.1.0/24'
   ]
 }
 
-param companyAmsVpnConnSettings object = {
-  name: 'company-vcon-vgw-uks-core-01-to-lgw-uks-company-ams-office'
+param companyaAmsVpnConnSettings object = {
+  name: 'companya-vcon-vgw-uks-core-01-to-lgw-uks-companya-ams-office'
   preSharedKey: 'pskpasswordhere'
 }
 
-param companyAxsVpnConnSettings object = {
-  name: 'company-vcon-vgw-uks-core-01-to-lgw-uks-company-axs-office'
+param companyaAxsVpnConnSettings object = {
+  name: 'companya-vcon-vgw-uks-core-01-to-lgw-uks-companya-axs-office'
   preSharedKey: 'pskpasswordhere'
 }
 
 param sysGroupVpnConnSettings object = {
-  name: 'company-vcon-vgw-uks-core-01-to-lgw-uks-syscloud-manchester'
+  name: 'companya-vcon-vgw-uks-core-01-to-lgw-uks-syscloud-manchester'
   preSharedKey: 'pskpasswordhere'
 }
 
 param vpnGwSettings object = {
-  name: 'company-vgw-uks-core-01'
+  name: 'companya-vgw-uks-core-01'
   sku: 'VpnGw1'
 }
 
@@ -221,25 +221,25 @@ resource sysGroupLng 'Microsoft.Network/localNetworkGateways@2019-11-01' = {
   }
 }
 
-resource companyAmsLng 'Microsoft.Network/localNetworkGateways@2019-11-01' = {
-  name: companyAmsLgwSettings.name
+resource companyaAmsLng 'Microsoft.Network/localNetworkGateways@2019-11-01' = {
+  name: companyaAmsLgwSettings.name
   location: resourceGroup().location
   properties: {
     localNetworkAddressSpace: {
-      addressPrefixes: companyAmsLgwSettings.privateIpRanges
+      addressPrefixes: companyaAmsLgwSettings.privateIpRanges
     }
-    gatewayIpAddress: companyAmsLgwSettings.publicIp
+    gatewayIpAddress: companyaAmsLgwSettings.publicIp
   }
 }
 
-resource companyAxsLng 'Microsoft.Network/localNetworkGateways@2019-11-01' = {
-  name: companyAxsLgwSettings.name
+resource companyaAxsLng 'Microsoft.Network/localNetworkGateways@2019-11-01' = {
+  name: companyaAxsLgwSettings.name
   location: resourceGroup().location
   properties: {
     localNetworkAddressSpace: {
-      addressPrefixes: companyAxsLgwSettings.privateIpRanges
+      addressPrefixes: companyaAxsLgwSettings.privateIpRanges
     }
-    gatewayIpAddress: companyAxsLgwSettings.publicIp
+    gatewayIpAddress: companyaAxsLgwSettings.publicIp
   }
 }
 
@@ -261,8 +261,8 @@ resource sysGroupVpnConn 'Microsoft.Network/connections@2020-11-01' = {
   }
 }
 
-resource companyAmsVpnConn 'Microsoft.Network/connections@2020-11-01' = {
-  name: companyAmsVpnConnSettings.name
+resource companyaAmsVpnConn 'Microsoft.Network/connections@2020-11-01' = {
+  name: companyaAmsVpnConnSettings.name
   location: resourceGroup().location
   properties: {
     virtualNetworkGateway1: {
@@ -270,17 +270,17 @@ resource companyAmsVpnConn 'Microsoft.Network/connections@2020-11-01' = {
       properties: {}
     }
     localNetworkGateway2: {
-      id: companyAmsLng.id
+      id: companyaAmsLng.id
       properties: {}
     }
     connectionType: 'IPsec'
     routingWeight: 0
-    sharedKey: companyAmsVpnConnSettings.preSharedKey
+    sharedKey: companyaAmsVpnConnSettings.preSharedKey
   }
 }
 
-resource companyAxsVpnConn 'Microsoft.Network/connections@2020-11-01' = {
-  name: companyAxsVpnConnSettings.name
+resource companyaAxsVpnConn 'Microsoft.Network/connections@2020-11-01' = {
+  name: companyaAxsVpnConnSettings.name
   location: resourceGroup().location
   properties: {
     virtualNetworkGateway1: {
@@ -288,11 +288,11 @@ resource companyAxsVpnConn 'Microsoft.Network/connections@2020-11-01' = {
       properties: {}
     }
     localNetworkGateway2: {
-      id: companyAxsLng.id
+      id: companyaAxsLng.id
       properties: {}
     }
     connectionType: 'IPsec'
     routingWeight: 0
-    sharedKey: companyAxsVpnConnSettings.preSharedKey
+    sharedKey: companyaAxsVpnConnSettings.preSharedKey
   }
 }
